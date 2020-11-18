@@ -1,4 +1,4 @@
-name: app
+name: guestbook
 
 type: php:7.4
 
@@ -9,8 +9,12 @@ runtime:
         - sodium
         - ctype
         - iconv
+        - pdo_pgsql
         
 
+relationships:
+    database: "db:postgresql"
+    
 #variables:
 #    php:
 #        # uncomment on PHP 7.4+
