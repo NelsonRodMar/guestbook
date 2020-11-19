@@ -20,7 +20,7 @@ class Comment
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $auauthor;
+    private $author;
 
     /**
      * @ORM\Column(type="text")
@@ -53,14 +53,14 @@ class Comment
         return $this->id;
     }
 
-    public function getAuauthor(): ?string
+    public function getAuthor(): ?string
     {
-        return $this->auauthor;
+        return $this->author;
     }
 
-    public function setAuauthor(string $auauthor): self
+    public function setAuthor(string $author): self
     {
-        $this->auauthor = $auauthor;
+        $this->author = $author;
 
         return $this;
     }
@@ -123,5 +123,10 @@ class Comment
         $this->photoFilename = $photoFilename;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->getEmail();
     }
 }
