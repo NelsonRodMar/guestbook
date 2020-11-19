@@ -10,10 +10,12 @@ runtime:
         - ctype
         - iconv
         - pdo_pgsql
+        - redis
         
 
 relationships:
     database: "db:postgresql"
+    redis: "rediscache:redis"
     
 #variables:
 #    php:

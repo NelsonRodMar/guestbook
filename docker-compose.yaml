@@ -14,3 +14,6 @@ services:
             # "3306" to "3306:3306". Where the first port is exposed to the host and the second is the container port.
             # See https://docs.docker.com/compose/compose-file/#ports for more information.
             - '5432'
+    redis:
+        image: redis:5-alpine
+        ports: [6379]
