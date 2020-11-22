@@ -7,6 +7,7 @@ use App\Entity\Conference;
 use App\Form\CommentTypeFormType;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
+use App\Service\SpamChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -65,10 +66,14 @@ class ConferenceController extends AbstractController
      * @param Conference        $conference
      * @param Request           $request
      * @param CommentRepository $commentRepository
+     * @param string            $photoDir
+     * @param SpamChecker       $spamChecker
      *
      * @return Response
+     *
+     * @throws \Exception
      */
-    public function show(Conference $conference, Request $request, CommentRepository $commentRepository, string $photoDir): Response
+    public function show(Conference $conference, Request $request, CommentRepository $commentRepository, string $photoDir, SpamChecker $spamChecker): Response
     {
         $offset = max(0, $request->query->getInt('offset', 0));
         $comments = $commentRepository->getCommentPaginator($conference, $offset);
@@ -92,6 +97,18 @@ class ConferenceController extends AbstractController
             }
 
             $this->entityManager->persist($comment);
+
+            $context = [
+                'user_ip' => $request->getClientIp(),
+                'user_agent' => $request->headers->get('user-agent'),
+                'referrer' => $request->headers->get('referer'),
+                'permalink' => $request->getUri(),
+            ];
+
+            if (2 === $spamChecker->getSpamScore($comment, $context)) {
+                throw new \RuntimeException('Blatant spam, go away !!!');
+            }
+
             $this->entityManager->flush();
 
             return $this->redirectToRoute('conference', [
