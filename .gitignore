@@ -11,3 +11,5 @@
 ###> PHPStorm ###
 .idea/
 ###< PHPStorm ###
+
+/public/uploads
