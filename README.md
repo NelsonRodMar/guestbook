@@ -12,3 +12,9 @@ Open in browser<br/>
 ``
 symfony open:local
 ``
+
+## Test
+Run test<br/>
+``
+make tests
+``

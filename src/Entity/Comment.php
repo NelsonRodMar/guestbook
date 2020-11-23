@@ -129,4 +129,15 @@ class Comment
     {
         return (string) $this->getEmail();
     }
+
+    /**
+     * Used for test
+     *
+     * @return $this
+     */
+    public function setCreatedAtValue(): self
+    {
+        $this->createdAt = new \DateTime();
+        return $this;
+    }
 }

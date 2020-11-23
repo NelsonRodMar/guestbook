@@ -14,3 +14,10 @@
 ###< PHPStorm ###
 
 /public/uploads
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+config/secrets/test/test.decrypt.private.php
