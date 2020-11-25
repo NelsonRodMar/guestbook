@@ -22,3 +22,19 @@ Open in browser<br/>
 ``
 symfony open:local
 ``
+
+
+## Entity Workflow
+
+Generate workflow ([Graphviz](https://www.graphviz.org/) required) <br/>
+``
+symfony console workflow:dump 'entity' | dot -Tpng -o workflow.png
+``
+
+Comment workflow<br/>
+![alt text](./doc/workflow_comment.png "Comment Workflow")
+
+
+## Other information
+
+* Commit messages based on [Gitmoji](https://gitmoji.carloscuesta.me/)
