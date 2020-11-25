@@ -4,6 +4,7 @@ type: php:7.4
 
 runtime:
     extensions:
+        - amqp
         - apcu
         - mbstring
         - sodium
@@ -16,6 +17,7 @@ runtime:
 relationships:
     database: "db:postgresql"
     redis: "rediscache:redis"
+    rabbitmq: "queue: rabbitmq"
     
 #variables:
 #    php:
@@ -52,3 +54,12 @@ hooks:
         set -x -e
 
         (>&2 symfony-deploy)
+
+workers:
+    messages:
+        commands:
+            start: |
+                set -x -e
+
+                (>&2 symfony-deploy)
+                php bin/console messenger:consume async -vv --time-limit=3600 --memory-limit=128M

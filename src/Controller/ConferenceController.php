@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Conference;
 use App\Form\CommentTypeFormType;
+use App\Message\CommentMessage;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
 use App\Service\SpamChecker;
@@ -14,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ConferenceController extends AbstractController
@@ -29,15 +31,22 @@ class ConferenceController extends AbstractController
     private $logger;
 
     /**
+     * @var MessageBusInterface $bus
+     */
+    private $bus;
+
+    /**
      * ConferenceController constructor.
      *
      * @param EntityManagerInterface $entityManager
      * @param LoggerInterface        $logger
+     * @param MessageBusInterface $bus
      */
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, MessageBusInterface $bus)
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
+        $this->bus = $bus;
     }
 
     /**
@@ -67,13 +76,12 @@ class ConferenceController extends AbstractController
      * @param Request           $request
      * @param CommentRepository $commentRepository
      * @param string            $photoDir
-     * @param SpamChecker       $spamChecker
      *
      * @return Response
      *
      * @throws \Exception
      */
-    public function show(Conference $conference, Request $request, CommentRepository $commentRepository, string $photoDir, SpamChecker $spamChecker): Response
+    public function show(Conference $conference, Request $request, CommentRepository $commentRepository, string $photoDir): Response
     {
         $offset = max(0, $request->query->getInt('offset', 0));
         $comments = $commentRepository->getCommentPaginator($conference, $offset);
@@ -97,6 +105,7 @@ class ConferenceController extends AbstractController
             }
 
             $this->entityManager->persist($comment);
+            $this->entityManager->flush();
 
             $context = [
                 'user_ip' => $request->getClientIp(),
@@ -105,11 +114,7 @@ class ConferenceController extends AbstractController
                 'permalink' => $request->getUri(),
             ];
 
-            if (2 === $spamChecker->getSpamScore($comment, $context)) {
-                throw new \RuntimeException('Blatant spam, go away !!!');
-            }
-
-            $this->entityManager->flush();
+            $this->bus->dispatch(new CommentMessage($comment->getId(), $context));
 
             return $this->redirectToRoute('conference', [
                 'slug' => $conference->getSlug()

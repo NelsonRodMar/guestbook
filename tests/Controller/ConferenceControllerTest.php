@@ -4,9 +4,12 @@
 namespace App\Tests\Controller;
 
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Entity\Comment;
+use App\Repository\CommentRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Panther\PantherTestCase;
 
-class ConferenceControllerTest extends WebTestCase
+class ConferenceControllerTest extends PantherTestCase
 {
 
     /**
@@ -51,17 +54,23 @@ class ConferenceControllerTest extends WebTestCase
      */
     public function testCommentSubmission()
     {
-      $client = static::createClient();
-      $client->request('GET', '/conference/amsterdam-2019');
-      $client->submitForm('Submit',[
-          'comment_type_form[author]' => 'Automated',
-          'comment_type_form[text]' => 'Sombe feedback from an automated functionnal test',
-          'comment_type_form[email]' => 'me@automat.ed',
-          'comment_type_form[photo]' => dirname(__DIR__,2).'test/public/test.jpeg',
-      ]);
+        $client = static::createClient();
+        $client->request('GET', '/conference/amsterdam-2019');
+        $client->submitForm('Submit', [
+            'comment_type_form[author]' => 'Automated',
+            'comment_type_form[text]' => 'Sombe feedback from an automated functionnal test',
+            'comment_type_form[email]' => $email = 'me@automat.ed',
+            'comment_type_form[photo]' => dirname(__DIR__, 2) . 'test/public/test.jpeg',
+        ]);
 
-      $this->assertResponseRedirects();
-      $client->followRedirect();
-      $this->assertSelectorExists('div:contains("There are 2 comments")');
+        // simulate comment validation
+        /** @var Comment $comment */
+        $comment = self::$container->get(CommentRepository::class)->findOneByEmail($email);
+        $comment->setState('published');
+        self::$container->get(EntityManagerInterface::class)->flush();
+
+        $this->assertResponseRedirects();
+        $client->followRedirect();
+        $this->assertSelectorExists('div:contains("There are 2 comments")');
     }
 }
