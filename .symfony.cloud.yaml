@@ -12,6 +12,7 @@ runtime:
         - iconv
         - pdo_pgsql
         - redis
+        - xsl
         
 
 relationships:
