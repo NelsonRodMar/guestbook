@@ -4,16 +4,21 @@ type: php:7.4
 
 runtime:
     extensions:
+        - amqp
         - apcu
         - mbstring
         - sodium
         - ctype
         - iconv
         - pdo_pgsql
+        - redis
+        - xsl
         
 
 relationships:
     database: "db:postgresql"
+    redis: "rediscache:redis"
+    rabbitmq: "queue: rabbitmq"
     
 #variables:
 #    php:
@@ -36,6 +41,7 @@ web:
 
 mounts:
     "/var": { source: local, source_path: var }
+    "/public/uploads": { source: local, source_path: uploads }
 
 hooks:
     build: |
@@ -49,3 +55,12 @@ hooks:
         set -x -e
 
         (>&2 symfony-deploy)
+
+workers:
+    messages:
+        commands:
+            start: |
+                set -x -e
+
+                (>&2 symfony-deploy)
+                php bin/console messenger:consume async -vv --time-limit=3600 --memory-limit=128M
