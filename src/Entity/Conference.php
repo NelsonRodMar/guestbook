@@ -136,16 +136,13 @@ class Conference
     }
 
     /**
-     * Function to calcul slug of Conference
-     *
-     * @param SluggerInterface $slugger
+     * Function to calcul slug of Conference.
      */
     public function computeSlug(SluggerInterface $slugger)
     {
         if (!$this->slug || '-' === $this->slug) {
             $this->slug = (string) $slugger->slug((string) $this)->lower();
         }
-
     }
 
     public function __toString(): string

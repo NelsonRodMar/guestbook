@@ -20,26 +20,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class ConferenceController extends AbstractController
 {
     /**
-     * @var EntityManagerInterface $entityManger
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
     /**
-     * @var LoggerInterface $logger
+     * @var LoggerInterface
      */
     private $logger;
 
     /**
-     * @var MessageBusInterface $bus
+     * @var MessageBusInterface
      */
     private $bus;
 
     /**
      * ConferenceController constructor.
-     *
-     * @param EntityManagerInterface $entityManager
-     * @param LoggerInterface        $logger
-     * @param MessageBusInterface $bus
      */
     public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, MessageBusInterface $bus)
     {
@@ -50,33 +46,16 @@ class ConferenceController extends AbstractController
 
     /**
      * @Route("/", name="homepage")
-     *
-     * @param ConferenceRepository $conferenceRepository
-     *
-     * @return Response
      */
     public function index(ConferenceRepository $conferenceRepository): Response
     {
         return $this->render('conference/index.html.twig', [
-            'conferences' => $conferenceRepository->findAll()
+            'conferences' => $conferenceRepository->findAll(),
         ]);
     }
 
-    function inc($people, $count)
-    {
-        $people += $count;
-    }
-
-
     /**
      * @Route("/conference/{slug}", name="conference")
-     *
-     * @param Conference        $conference
-     * @param Request           $request
-     * @param CommentRepository $commentRepository
-     * @param string            $photoDir
-     *
-     * @return Response
      *
      * @throws \Exception
      */
@@ -116,11 +95,11 @@ class ConferenceController extends AbstractController
             $this->bus->dispatch(new CommentMessage($comment->getId(), $context));
 
             return $this->redirectToRoute('conference', [
-                'slug' => $conference->getSlug()
+                'slug' => $conference->getSlug(),
             ]);
         }
 
-        return $this->render('conference/show.html.twig',[
+        return $this->render('conference/show.html.twig', [
             'conference' => $conference,
             'comments' => $comments,
             'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,

@@ -136,13 +136,14 @@ class Comment
     }
 
     /**
-     * Used for test
+     * Used for test.
      *
      * @return $this
      */
     public function setCreatedAtValue(): self
     {
         $this->createdAt = new \DateTime();
+
         return $this;
     }
 

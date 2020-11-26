@@ -1,4 +1,6 @@
 {
+    "name": "nelsonrodmar/guestbook",
+    "description": "A project to follow The Fast track book",
     "type": "project",
     "license": "proprietary",
     "require": {
@@ -22,6 +24,7 @@
         "symfony/messenger": "5.1.*",
         "symfony/mime": "5.1.*",
         "symfony/monolog-bundle": "^3.6",
+        "symfony/requirements-checker": "^2.0",
         "symfony/security-bundle": "5.1.*",
         "symfony/string": "5.1.*",
         "symfony/twig-bundle": "^5.1",
@@ -36,6 +39,10 @@
     "require-dev": {
         "dama/doctrine-test-bundle": "^6.4",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "phpstan/phpstan": "^0.12.57",
+        "psalm/plugin-symfony": "^2.0",
+        "squizlabs/php_codesniffer": "^3.5",
         "symfony/browser-kit": "5.1.*",
         "symfony/css-selector": "^5.1",
         "symfony/debug-bundle": "^5.1",
@@ -75,7 +82,8 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "requirements-checker": "script"
         },
         "post-install-cmd": [
             "@auto-scripts"

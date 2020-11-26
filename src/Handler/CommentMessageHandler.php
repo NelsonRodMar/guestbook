@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Handler;
-
 
 use App\Message\CommentMessage;
 use App\Repository\CommentRepository;
@@ -18,45 +16,44 @@ use Symfony\Component\Workflow\WorkflowInterface;
 class CommentMessageHandler implements MessageHandlerInterface
 {
     /**
-     * @var SpamChecker $spamChecker
+     * @var SpamChecker
      */
     private $spamChecker;
 
     /**
-     * @var EntityManagerInterface $entityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
     /**
-     * @var CommentRepository $commentRepository
+     * @var CommentRepository
      */
     private $commentRepository;
 
     /**
-     * @var MessageBusInterface $bus
+     * @var MessageBusInterface
      */
     private $bus;
 
     /**
-     * @var WorkflowInterface $workflow
+     * @var WorkflowInterface
      */
     private $workflow;
 
     /**
-     * @var LoggerInterface $logger
+     * @var LoggerInterface
      */
     private $logger;
 
     /**
-     * @var MailerInterface $mailer
+     * @var MailerInterface
      */
     private $mailer;
 
     /**
-     * @var string $adminEmail
+     * @var string
      */
     private $adminEmail;
-
 
     public function __construct(SpamChecker $spamChecker, EntityManagerInterface $entityManager, CommentRepository $commentRepository, MessageBusInterface $bus, WorkflowInterface $commentStateMachine, MailerInterface $mailer, string $adminEmail, LoggerInterface $logger = null)
     {
@@ -88,7 +85,8 @@ class CommentMessageHandler implements MessageHandlerInterface
             $this->workflow->apply($comment, $transition);
             $this->entityManager->flush();
             $this->bus->dispatch($message);
-        }   elseif ($this->workflow->can($comment, 'publish') || $this->workflow->can($comment, 'publish_ham')) {
+        } elseif ($this->workflow->can($comment, 'publish') || $this->workflow->can($comment, 'publish_ham')) {
+            // @codingStandardsIgnoreLine
             $this->mailer->send((new NotificationEmail())
                 ->subject('New comment posted')
                 ->htmlTemplate('emails/comment_notification.html.twig')
@@ -101,7 +99,7 @@ class CommentMessageHandler implements MessageHandlerInterface
                 'Dropping comment message',
                 [
                     'comment' => $comment->getId(),
-                    'state' => $comment->getState()
+                    'state' => $comment->getState(),
                 ]
             );
         }

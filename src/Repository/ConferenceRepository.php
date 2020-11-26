@@ -7,9 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * Class ConferenceRepository
- *
- * @package App\Repository
+ * Class ConferenceRepository.
  */
 class ConferenceRepository extends ServiceEntityRepository
 {

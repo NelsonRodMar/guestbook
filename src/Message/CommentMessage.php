@@ -1,18 +1,16 @@
 <?php
 
-
 namespace App\Message;
-
 
 class CommentMessage
 {
     /**
-     * int $id
+     * int $id.
      */
     private $id;
 
     /**
-     * @var array $context
+     * @var array
      */
     private $context;
 

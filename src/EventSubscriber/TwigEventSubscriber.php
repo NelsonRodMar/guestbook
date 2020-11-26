@@ -8,9 +8,7 @@ use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Twig\Environment;
 
 /**
- * Class TwigEventSubscriber
- *
- * @package App\EventSubscriber
+ * Class TwigEventSubscriber.
  */
 class TwigEventSubscriber implements EventSubscriberInterface
 {
@@ -19,9 +17,6 @@ class TwigEventSubscriber implements EventSubscriberInterface
 
     /**
      * TwigEventSubscriber constructor.
-     *
-     * @param Environment $twig
-     * @param ConferenceRepository $conferenceRepository
      */
     public function __construct(Environment $twig, ConferenceRepository $conferenceRepository)
     {

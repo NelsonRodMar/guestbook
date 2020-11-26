@@ -8,20 +8,17 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class SpamChecker
 {
     /**
-     * @var HttpClientInterface $client
+     * @var HttpClientInterface
      */
     private $client;
 
     /**
-     * @var string $endpoint
+     * @var string
      */
     private $endpoint;
 
     /**
      * SpamChecker constructor.
-     *
-     * @param HttpClientInterface $client
-     * @param string              $akismetKey
      */
     public function __construct(HttpClientInterface $client, string $akismetKey)
     {
@@ -30,12 +27,9 @@ class SpamChecker
     }
 
     /**
-     * @param Comment $comment
-     * @param array $context
-     *
      * @return int Spam score: 0: not spam, 1: maybe spam, 2: blatant spam
      *
-     * @throws \RuntimeException if the call did not work
+     * @throws \RuntimeException                                                     if the call did not work
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface

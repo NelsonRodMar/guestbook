@@ -1,35 +1,31 @@
 <?php
 
-
 namespace App\Controller;
-
 
 use App\Entity\Comment;
 use App\Message\CommentMessage;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Workflow\Registry;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Workflow\Registry;
 
 /**
- * Class AdminController
+ * Class AdminController.
  *
  * @Route("/admin")
- *
- * @package App\Controller
  */
 class AdminController extends AbstractController
 {
     /**
-     * @var MessageBusInterface $bus
+     * @var MessageBusInterface
      */
     private $bus;
 
     /**
-     * @var EntityManagerInterface $entityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
@@ -41,12 +37,6 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/comment/review/{id}", name="review_comment")
-     *
-     * @param Request $request
-     * @param Comment $comment
-     * @param Registry $registry
-     *
-     * @return Response
      */
     public function reviewComment(Request $request, Comment $comment, Registry $registry): Response
     {

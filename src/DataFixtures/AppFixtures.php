@@ -15,14 +15,11 @@ class AppFixtures extends Fixture
 
     /**
      * AppFixtures constructor.
-     *
-     * @param EncoderFactoryInterface $encoderFactory
      */
     public function __construct(EncoderFactoryInterface $encoderFactory)
     {
         $this->encoderFactory = $encoderFactory;
     }
-
 
     public function load(ObjectManager $manager)
     {
