@@ -26,6 +26,11 @@ start:
 	symfony run -d --watch=config,src,templates,vendor symfony console messenger:consume async
 .PHONY: start
 
+## —— Install ⚙️ ——————————————————————————————————————————————————————————————————
+install:
+	symfony composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+.PHONY: install
+
 ## —— Stop in local 🛑 —————————————————————————————————————————————————————————
 stop:
 	symfony server:stop
@@ -52,6 +57,7 @@ tests:
 	symfony console doctrine:fixtures:load -n
 	symfony php bin/phpunit
 .PHONY: tests
+
 
 
 ## —— Stats 📊 —————————————————————————————————————————————————————————————————

@@ -8,6 +8,11 @@ Start server<br/>
 make start
 ``
 
+Install application<br/>
+``
+make install
+``
+
 Stop server<br/>
 ``
 make stop
