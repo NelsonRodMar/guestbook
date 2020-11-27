@@ -46,7 +46,7 @@ jobs:
 
       # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
       - name: Install Symfony CLI
-        run:
+        run: |
           wget https://get.symfony.com/cli/installer -O - | bash
           export PATH="$HOME/.symfony/bin:$PATH"
 
