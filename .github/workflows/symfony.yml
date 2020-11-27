@@ -46,7 +46,9 @@ jobs:
 
       # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
       - name: Install Symfony CLI
-        run: wget https://get.symfony.com/cli/installer -O - | bash
+        run:
+          wget https://get.symfony.com/cli/installer -O - | bash
+          export PATH="$HOME/.symfony/bin:$PATH"
 
       - name: Validate composer.json and composer.lock
         run: composer validate
