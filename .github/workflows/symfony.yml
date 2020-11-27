@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - master
-      - dev
+      - develop
 env:
   ES_HTTP_PORT: 9209
 jobs:
