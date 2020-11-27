@@ -19,7 +19,7 @@ jobs:
       # https://docs.docker.com/samples/library/mysql/
       database:
         image: 'postgres:11-alpine'
-        environment:
+        env:
           POSTGRES_PASSWORD: main
           POSTGRES_USER: main
           POSTGRES_DB: main
