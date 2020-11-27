@@ -45,6 +45,9 @@ jobs:
           update: true
 
       # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
+      - name: Install Symfony CLI
+        run: wget https://get.symfony.com/cli/installer -O - | bash
+
       - name: Validate composer.json and composer.lock
         run: composer validate
 
