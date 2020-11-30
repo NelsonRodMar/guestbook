@@ -2,7 +2,7 @@ version: '3.7'
 services:
     database:
         image: 'postgres:11-alpine'
-        environement:
+        environment:
             POSTGRES_PASSWORD: main
             POSTGRES_USER: main
             POSTGRES_DB: main

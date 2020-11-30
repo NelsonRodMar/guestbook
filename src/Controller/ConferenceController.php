@@ -90,7 +90,7 @@ class ConferenceController extends AbstractController
             $comment->setConference($conference);
 
             if ($photo = $form['photo']->getData()) {
-                $filename = bin2hex(random_bytes(6).'.'.$photo->guessExtension());
+                $filename = bin2hex(random_bytes(6)).'.'.$photo->guessExtension();
                 try {
                     $photo->move($photoDir, $filename);
                     $comment->setPhotoFilename($filename);

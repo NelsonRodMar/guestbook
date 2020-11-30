@@ -4,6 +4,7 @@ namespace App\Handler;
 
 use App\Message\CommentMessage;
 use App\Repository\CommentRepository;
+use App\Service\ImageOptimizer;
 use App\Service\SpamChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -15,47 +16,18 @@ use Symfony\Component\Workflow\WorkflowInterface;
 
 class CommentMessageHandler implements MessageHandlerInterface
 {
-    /**
-     * @var SpamChecker
-     */
     private $spamChecker;
-
-    /**
-     * @var EntityManagerInterface
-     */
     private $entityManager;
-
-    /**
-     * @var CommentRepository
-     */
     private $commentRepository;
-
-    /**
-     * @var MessageBusInterface
-     */
     private $bus;
-
-    /**
-     * @var WorkflowInterface
-     */
     private $workflow;
-
-    /**
-     * @var LoggerInterface
-     */
     private $logger;
-
-    /**
-     * @var MailerInterface
-     */
     private $mailer;
-
-    /**
-     * @var string
-     */
     private $adminEmail;
+    private $imageOptimizer;
+    private $photoDir;
 
-    public function __construct(SpamChecker $spamChecker, EntityManagerInterface $entityManager, CommentRepository $commentRepository, MessageBusInterface $bus, WorkflowInterface $commentStateMachine, MailerInterface $mailer, string $adminEmail, LoggerInterface $logger = null)
+    public function __construct(SpamChecker $spamChecker, EntityManagerInterface $entityManager, CommentRepository $commentRepository, MessageBusInterface $bus, WorkflowInterface $commentStateMachine, MailerInterface $mailer, string $adminEmail, string $photoDir, ImageOptimizer $imageOptimizer, LoggerInterface $logger = null)
     {
         $this->spamChecker = $spamChecker;
         $this->entityManager = $entityManager;
@@ -64,6 +36,8 @@ class CommentMessageHandler implements MessageHandlerInterface
         $this->workflow = $commentStateMachine;
         $this->mailer = $mailer;
         $this->adminEmail = $adminEmail;
+        $this->photoDir = $photoDir;
+        $this->imageOptimizer = $imageOptimizer;
         $this->logger = $logger;
     }
 
@@ -94,6 +68,12 @@ class CommentMessageHandler implements MessageHandlerInterface
                 ->to($this->adminEmail)
                 ->context(['comment' => $comment])
             );
+        } elseif ($this->workflow->can($comment, 'optimize')) {
+            if ($comment->getPhotoFilename()) {
+                $this->imageOptimizer->resize($this->photoDir.'/'.$comment->getPhotoFilename());
+            }
+            $this->workflow->apply($comment, 'optimize');
+            $this->entityManager->flush();
         } elseif ($this->logger) {
             $this->logger->debug(
                 'Dropping comment message',
