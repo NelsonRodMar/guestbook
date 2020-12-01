@@ -19,7 +19,6 @@ services:
         bind:
             string $photoDir: "%kernel.project_dir%/public/%photoDir%"
             string $akismetKey: "%env(AKISMET_KEY)%"
-            string $adminEmail: "%env(string:default:default_admin_email:ADMIN_EMAIL)%"
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

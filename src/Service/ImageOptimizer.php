@@ -31,4 +31,14 @@ class ImageOptimizer
         $photo = $this->imagine->open($filename);
         $photo->resize((new Box($width, $height)))->save($filename);
     }
+
+    public function getMaxWidth(): int
+    {
+        return self::MAX_WIDTH;
+    }
+
+    public function getMaxHeight(): int
+    {
+        return self::MAX_HEIGHT;
+    }
 }

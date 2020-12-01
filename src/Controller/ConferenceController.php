@@ -15,7 +15,10 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Notifier\Notification\Notification;
+use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ConferenceController extends AbstractController
 {
@@ -35,13 +38,19 @@ class ConferenceController extends AbstractController
     private $bus;
 
     /**
+     * @var NotifierInterface
+     */
+    private $notifier;
+
+    /**
      * ConferenceController constructor.
      */
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, MessageBusInterface $bus)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, MessageBusInterface $bus, NotifierInterface $notifier)
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
         $this->bus = $bus;
+        $this->notifier = $notifier;
     }
 
     /**
@@ -59,7 +68,6 @@ class ConferenceController extends AbstractController
 
     /**
      * @Route("/conference_header", name="conference_header")
-     * @return Response
      */
     public function conferenceHeader(): Response
     {
@@ -110,11 +118,28 @@ class ConferenceController extends AbstractController
                 'permalink' => $request->getUri(),
             ];
 
-            $this->bus->dispatch(new CommentMessage($comment->getId(), $context));
+            $this->notifier->send(new Notification(
+                'Thank you for the feedback; your comment will be posted after moderation',
+                ['browser']
+            ));
+
+            $reviewUrl = $this->generateUrl(
+                'review_comment',
+                ['id' => $comment->getId()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+            $this->bus->dispatch(new CommentMessage($comment->getId(), $reviewUrl, $context));
 
             return $this->redirectToRoute('conference', [
                 'slug' => $conference->getSlug(),
             ]);
+        }
+
+        if ($form->isSubmitted()) {
+            $this->notifier->send(new Notification(
+                'Can you check your submission ? There are some problems with it.',
+                ['browser']
+            ));
         }
 
         return $this->render('conference/show.html.twig', [
