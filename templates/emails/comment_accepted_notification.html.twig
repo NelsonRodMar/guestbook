@@ -1,0 +1,15 @@
+{% extends '@email/default/notification/body.html.twig' %}
+
+{% block content %}
+    Hello {{ comment.author }},<br />
+    We send you this mail to inform you that you're comment posted here <a href="{{ url('conference', {slug: comment.conference.slug}) }}">{{ comment.conference }}</a>  is accepted.<br />
+    That was you're comment :<br />
+    <p>
+        {{ comment.text }}
+    </p>
+    <br />
+
+    {% if comment.photoFilename is not null %}
+        <img src="{{ url('homepage') ~  photoDir ~ comment.photoFilename }}" alt="Image of the comment from {{ comment.author }}">
+    {% endif %}
+{% endblock %}
