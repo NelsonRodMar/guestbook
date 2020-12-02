@@ -3,17 +3,17 @@
 A project following the book [Symfony 5: The Fast Track](https://symfony.com/book) write by Fabien Potencier
 
 ## Symfony local server
-Start server<br/>
+Start the web application and the SPA*<br/>
 ``
 make start
 ``
 
-Install application<br/>
+Install the web application and the SPA*<br/>
 ``
 make install
 ``
 
-Stop server<br/>
+Stop the web application and the SPA*<br/>
 ``
 make stop
 ``
@@ -43,3 +43,4 @@ Comment workflow<br/>
 ## Other information
 
 * Commit messages based on [Gitmoji](https://gitmoji.carloscuesta.me/)
+* *The [Symfony CLI](https://symfony.com/download) is required to run the make command

@@ -19,22 +19,26 @@ BREW          = brew
 
 SHELL := /bin/bash
 
-## —— Deploy in local 🚀 —————————————————————————————————————————————————————————
+## —— Start in local 🚀 —————————————————————————————————————————————————————————
 start:
 	symfony server:start -d
 	docker-compose up -d
 	symfony run -d --watch=config,src,templates,vendor symfony console messenger:consume async
+	cd spa; symfony server:start -d --passthru=index.html
+	cd spa; API_ENDPOINT=`symfony var:export SYMFONY_PROJECT_DEFAULT_ROUTE_URL --dir=..` symfony run -d --watch=webpack.config.js yarn encore dev --watch
 .PHONY: start
 
 ## —— Install ⚙️ ——————————————————————————————————————————————————————————————————
 install:
 	symfony composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+	cd spa; yarn install
 .PHONY: install
 
 ## —— Stop in local 🛑 —————————————————————————————————————————————————————————
 stop:
 	symfony server:stop
 	docker-compose down
+	cd spa; symfony server:stop
 .PHONY: stop
 
 
@@ -43,13 +47,17 @@ cs:
 	make codesniffer
 	make stan
 	make cs-fix
+.PHONY: cs
 
 codesniffer:
 	./vendor/bin/php-cs-fixer fix src/
+.PHONY: codesniffer
 stan:
 	./vendor/bin/phpstan analyse src/ --memory-limit 1G
+.PHONY: stan
 cs-fix:
 	./vendor/squizlabs/php_codesniffer/bin/phpcs -n -p src/
+.PHONY: fix
 
 
 ## —— Tests ✅ ——————————————————————————————————————————————————————————————————
@@ -64,3 +72,4 @@ tests:
 stats: ## Commits by the hour for the main author of this project
 	$(info ************  List total commits by author ************)
 	@git shortlog -sn
+.PHONY: stats
