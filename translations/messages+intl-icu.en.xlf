@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="p7FoULE" resname="website.title">
+        <source>website.title</source>
+        <target>Conference Guestbook</target>
+      </trans-unit>
+      <trans-unit id="F4Fbyzz" resname="feedback.label">
+        <source>feedback.label</source>
+        <target>Gice your feedback !</target>
+      </trans-unit>
+      <trans-unit id="xfoXKkL" resname="view.button">
+        <source>view.button</source>
+        <target>View</target>
+      </trans-unit>
+      <trans-unit id="maMQz7W" resname="nb_of_comments">
+        <source>nb_of_comments</source>
+        <target>{count, plural, =0 {No comment.} =1 {1 comment.} other {# comments.}}</target>
+      </trans-unit>
+      <trans-unit id="XVnAYQK" resname="previous.button">
+        <source>previous.button</source>
+        <target>Previous</target>
+      </trans-unit>
+      <trans-unit id="WakyzgG" resname="next.button">
+        <source>next.button</source>
+        <target>Next</target>
+      </trans-unit>
+      <trans-unit id="LK2O.PO" resname="add_feedback.label">
+        <source>add_feedback.label</source>
+        <target>Add your feedback</target>
+      </trans-unit>
+      <trans-unit id="vIsaIpH" resname="username.label">
+        <source>username.label</source>
+        <target>Username</target>
+      </trans-unit>
+      <trans-unit id="tXPCtsC" resname="password.label">
+        <source>password.label</source>
+        <target>Password</target>
+      </trans-unit>
+      <trans-unit id="NZJOhzz" resname="sign_in.label">
+        <source>sign_in.label</source>
+        <target>Sign in</target>
+      </trans-unit>
+      <trans-unit id="kTRK6H_" resname="name.label">
+        <source>name.label</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="BWS7Lck" resname="comment.label">
+        <source>comment.label</source>
+        <target>Comment</target>
+      </trans-unit>
+      <trans-unit id="mIJwd.8" resname="email.label">
+        <source>email.label</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="myGlAyt" resname="submit.button">
+        <source>submit.button</source>
+        <target>Submit</target>
+      </trans-unit>
+      <trans-unit id="gP1oGEr" resname="login.label">
+        <source>login.label</source>
+        <target>Please sign in</target>
+      </trans-unit>
+      <trans-unit id="gPdaaa1oGEr" resname="back_website.label">
+        <source>back_website.label</source>
+        <target>Back to Guestbook Conference</target>
+      </trans-unit>
+      <trans-unit id="gPdafe1oGEr" resname="conference.label">
+        <source>conference.label</source>
+        <target>Conference</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

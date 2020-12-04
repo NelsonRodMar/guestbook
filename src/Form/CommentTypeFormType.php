@@ -19,15 +19,16 @@ class CommentTypeFormType extends AbstractType
     {
         $builder
             ->add('author', TextType::class, [
-                'label' => 'Your name',
+                'label' => 'name.label',
                 'required' => true,
+                'attr' => ['autofocus' => true],
             ])
             ->add('text', TextareaType::class, [
-                'label' => 'Your comment',
+                'label' => 'comment.label',
                 'required' => true,
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Your email',
+                'label' => 'email.label',
                 'required' => true,
             ])
             ->add('photo', FileType::class, [
@@ -38,7 +39,9 @@ class CommentTypeFormType extends AbstractType
                     new Image(['maxSize' => '2048k']),
                 ],
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'submit.button',
+            ])
         ;
     }
 

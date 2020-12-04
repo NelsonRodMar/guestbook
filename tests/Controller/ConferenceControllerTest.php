@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Tests\Controller;
-
 
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
@@ -11,56 +9,54 @@ use Symfony\Component\Panther\PantherTestCase;
 
 class ConferenceControllerTest extends PantherTestCase
 {
-
     /**
-     * Test index page
+     * Test index page.
      *
      * @test
      */
     public function textIndex(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/');
+        $client->request('GET', '/en');
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h2', 'Give your feedback');
     }
 
     /**
-     * Test page conference
+     * Test page conference.
      *
      * @test
      */
     public function testConferencePage()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/en');
 
         $this->assertCount(2, $crawler->filter('h4'));
 
         $client->clickLink('View');
 
-
         $this->assertPageTitleContains('Amsterdam');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h2', 'Amsterdam 2019');
-        $this->assertSelectorExists('div:contains("There are 1 comments")');
+        $this->assertSelectorExists('div:contains("1 comment.")');
     }
 
     /**
-     * Test comment insertion
+     * Test comment insertion.
      *
      * @test
      */
     public function testCommentSubmission()
     {
         $client = static::createClient();
-        $client->request('GET', '/conference/amsterdam-2019');
+        $client->request('GET', '/en/conference/amsterdam-2019');
         $client->submitForm('Submit', [
             'comment_type_form[author]' => 'Automated',
-            'comment_type_form[text]' => 'Sombe feedback from an automated functionnal test',
+            'comment_type_form[text]' => 'Some feedback from an automated functionnal test',
             'comment_type_form[email]' => $email = 'me@automat.ed',
-            'comment_type_form[photo]' => dirname(__DIR__, 2) . 'test/public/test.jpeg',
+            'comment_type_form[photo]' => dirname(__DIR__, 2).'test/public/test.jpeg',
         ]);
 
         // simulate comment validation
@@ -71,6 +67,6 @@ class ConferenceControllerTest extends PantherTestCase
 
         $this->assertResponseRedirects();
         $client->followRedirect();
-        $this->assertSelectorExists('div:contains("There are 2 comments")');
+        $this->assertSelectorExists('div:contains("2 comments.")');
     }
 }

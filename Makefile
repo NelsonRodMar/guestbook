@@ -24,7 +24,6 @@ start:
 	symfony server:start -d
 	docker-compose up -d
 	symfony run -d --watch=config,src,templates,vendor symfony console messenger:consume async
-	cd spa; symfony server:start -d --passthru=index.html
 	cd spa; API_ENDPOINT=`symfony var:export SYMFONY_PROJECT_DEFAULT_ROUTE_URL --dir=..` symfony run -d --watch=webpack.config.js yarn encore dev --watch
 .PHONY: start
 

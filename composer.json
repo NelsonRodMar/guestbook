@@ -42,6 +42,7 @@
         "symfony/slack-notifier": "5.1.*",
         "symfony/string": "5.1.*",
         "symfony/telegram-notifier": "5.1.*",
+        "symfony/translation": "5.1.*",
         "symfony/twig-bundle": "^5.1",
         "symfony/validator": "5.1.*",
         "symfony/webpack-encore-bundle": "^1.8",
@@ -51,6 +52,7 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/inky-extra": "^3",
         "twig/intl-extra": "^3.1",
+        "twig/string-extra": "^3.1",
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {

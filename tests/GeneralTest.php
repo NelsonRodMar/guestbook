@@ -22,8 +22,8 @@ class GeneralTest extends WebTestCase
 
     public function urlProvider()
     {
-        yield ['/'];
-        yield ['/conference/amsterdam-2019'];
-        yield ['/login'];
+        yield ['/en'];
+        yield ['/en/conference/amsterdam-2019'];
+        yield ['/en/login'];
     }
 }
